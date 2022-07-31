@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAPE GAME</title>
+    <style>
+        *{
+            margin: 0;
+        }
+        .wrapper{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1{
+            margin: 10px auto;
+        }
+        .controls{
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+        .controls > *{
+            margin: auto 20px;
+        }
+        button{
+            width: 60px;
+            padding: 3px 0;
+            border-radius: 5px;
+
+        }
+        #start{
+            background-color: green;
+            color: white;
+        }
+        #stop{
+            background-color: red;
+            color: white;
+        }
+       #scoretxt,#livestxt{
+        font-size: x-large;
+        font-weight: bolder;
+       }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>SHAPE GAME</h1>
+        <div class="controls">
+            <button id="start" onclick="restartGame()">Start</button>
+            <button id="stop" onclick="endGame(0)">End</button>
+            <span id="space">
+            <span><b>Score : </b>  </span> 
+            <span id="scoretxt"></span>
+            </span>
+            <span id="space">
+            <span><b>Lives : </b>  </span> 
+            <span id="livestxt"></span>
+        </span>
+        </div>
+<canvas style="width:500px ;height:500px; border:2px solid">
+</canvas>
+
+    </div>
+    
+
+
+<script src="ball.js"></script>
+</body>
+</html>
