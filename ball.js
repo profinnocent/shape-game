@@ -18,6 +18,7 @@ const circle = {
     x: 200,
     y: 420,
     rad: 30,
+    speed: 0,
     dx: 5,
     dy: -4
 }
@@ -163,6 +164,11 @@ function collision(){
     if(circle.x > player.x && circle.x < player.x + player.width && circle.y + circle.rad > player.y){
         score++;
         scoretxt.innerText = score;
+
+        if(score > 10){
+            circle.speed += 5;
+        }
+
         circle.dy *= -1;
     }
     
