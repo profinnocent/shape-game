@@ -2,6 +2,10 @@ const scoretxt = document.querySelector("#scoretxt");
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d')
 
+const leftBtn = document.querySelector("#left");
+const rightBtn = document.querySelector("#right");
+
+
 let score = 0;
 let lives = 0;
 
@@ -107,17 +111,9 @@ function movePlayer(e){
     //check for collison
 
         if(e.key === "ArrowLeft" || e.key === "Left" ){
-            if(player.x < 0){
-                player.dx = 0;
-            }else{
-                player.dx = -player.speed;
-            }
+            playerLeft();
         }else  if(e.key === "ArrowRight" || e.key === "Right" ){
-            if(player.x + player.width > cWidth){
-                player.dx = 0;
-            }else{
-                player.dx = player.speed;
-            }
+            playerRight();
         }
 
     
@@ -129,10 +125,42 @@ function movePlayer(e){
 function stopPlayer(e){
     // alert("Keydown")
     if(e.key === "ArrowRight" || e.key === "Right" || e.key == "ArrowLeft" || e.key == "Left" ){
-        player.dx = 0;
+        playerStop();
     
     }
 }
+
+
+//Player Button control on phone
+leftBtn.addEventListener('click', playerLeft);
+rightBtn.addEventListener('click', playerRight);
+
+leftBtn.addEventListener('mousedown', playerLeft);
+rightBtn.addEventListener('mousedown', playerRight);
+
+function playerLeft(){
+    if(player.x < 0){
+        player.dx = 0;
+    }else{
+        player.dx = -player.speed;
+    }
+}
+
+function playerRight(){
+    if(player.x + player.width > cWidth){
+        player.dx = 0;
+    }else{
+        player.dx = player.speed;
+    }
+}
+
+function playerStop(){
+    player.dx = 0;
+}
+
+leftBtn.addEventListener('mouseleave', playerStop);
+rightBtn.addEventListener('mouseleave', playerStop);
+
 
 
 //Collision
