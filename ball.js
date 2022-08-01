@@ -132,8 +132,8 @@ function stopPlayer(e){
 
 
 //Player Button control on phone
-leftBtn.addEventListener('click', playerLeft);
-rightBtn.addEventListener('click', playerRight);
+// leftBtn.addEventListener('click', playerLeft);
+// rightBtn.addEventListener('click', playerRight);
 
 leftBtn.addEventListener('mousedown', playerLeft);
 rightBtn.addEventListener('mousedown', playerRight);
