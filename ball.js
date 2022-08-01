@@ -116,8 +116,6 @@ function movePlayer(e){
             playerRight();
         }
 
-    
-
 }
 
 
