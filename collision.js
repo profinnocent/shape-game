@@ -108,7 +108,9 @@ function animate(){
 //Game State Function
 function startGen() {
     // Interval functions
-    cbInterval = setInterval(() => createBlock(), 3000)
+    cbInterval = setInterval(() => createBlock(), 3000);
+    
+    document.getElementById('startbtn').disabled = true;
 
     animate()
 }
