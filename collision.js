@@ -136,7 +136,7 @@ function collisionDetect(){
                         blockets[j].dx *= -1;
                         blockets[j].dy *= -1;
                         jcol = i;
-                        console.log(i,j);
+                        // console.log(i,j);
                         break;
 
                     }
