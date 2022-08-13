@@ -1,4 +1,6 @@
 const scoretxt = document.querySelector("#scoretxt");
+const startBtn = document.querySelector("#start");
+
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d')
 
@@ -38,6 +40,7 @@ function darwCircle(){
     ctx.arc(circle.x, circle.y, circle.rad, 0, Math.PI * 2);
     ctx.fillStyle = "violet";
     ctx.fill();
+    ctx.closePath()
 
 }
 
@@ -130,11 +133,13 @@ function stopPlayer(e){
 
 
 //Player Button control on phone
-// leftBtn.addEventListener('click', playerLeft);
-// rightBtn.addEventListener('click', playerRight);
+leftBtn.addEventListener('mouseenter', playerLeft);
+rightBtn.addEventListener('mouseenter', playerRight);
 
-leftBtn.addEventListener('mousedown', playerLeft);
-rightBtn.addEventListener('mousedown', playerRight);
+// leftBtn.addEventListener('mousedown', playerLeft);
+// rightBtn.addEventListener('mousedown', playerRight);
+leftBtn.addEventListener('mouseleave', playerStop);
+rightBtn.addEventListener('mouseleave', playerStop);
 
 function playerLeft(){
     if(player.x < 0){
@@ -156,8 +161,7 @@ function playerStop(){
     player.dx = 0;
 }
 
-leftBtn.addEventListener('mouseleave', playerStop);
-rightBtn.addEventListener('mouseleave', playerStop);
+
 
 
 
@@ -220,14 +224,13 @@ function startGame(){
 function endGame(choice){
 
     if(choice == 0){
-   if(confirm("Do you want to end this Game?")){
-    location.reload();
-   }
-}else{
-    location.reload();
-    alert("Game Over")
-
-}
+        if(confirm("Do you want to end this Game?")){
+            location.reload();
+        }
+    }else{
+        location.reload();
+        alert("Game Over!!! Your score is " + score)
+    }
 
 }
 
@@ -240,6 +243,8 @@ function restartGame(){
     document.getElementById('livestxt').innerText = lives;
 
     scoretxt.innerText = 0;
+
+    startBtn.disabled = true;
 
     startGame();
 }
