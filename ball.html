@@ -1,103 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SHAPE GAME</title>
-    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/bootstrap.min.css" />
     <style>
-        *{
-            margin: 0;
-        }
-        body{
-            width:100vw;
-            height: 100vh;
-        }
-        .wrapper{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        h1{
-            margin: 10px auto;
-        }
-        .controls{
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 10px;
-        }
-        .controls > *{
-            margin: auto 20px;
-        }
-        button{
-            width: 60px;
-            padding: 3px 0;
-            border-radius: 5px;
-
-        }
-        #start{
-            background-color: green;
-            color: white;
-        }
-        #stop{
-            background-color: red;
-            color: white;
-        }
-       #scoretxt,#livestxt{
+      * {
+        margin: 0;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+      }
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      h1 {
+        margin: 10px auto;
+      }
+      .controls {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+      }
+      .controls > * {
+        margin: auto 20px;
+      }
+      button {
+        width: 60px;
+        padding: 3px 0;
+        border-radius: 5px;
+      }
+      #start {
+        background-color: green;
+        color: white;
+      }
+      #stop {
+        background-color: red;
+        color: white;
+      }
+      #scoretxt,
+      #livestxt {
         font-size: x-large;
         font-weight: bolder;
-       }
-       .joystick{
+      }
+      .joystick {
         margin-top: 10px;
-       }
-       #left, #right{
+      }
+      #left,
+      #right {
         margin: 0 20px;
         padding: 10px 0;
-       }
-       .ref{
+      }
+      .ref {
         text-align: left;
         margin-top: 10px;
         width: 100%;
-       }
-       a{
+      }
+      a {
         text-decoration: none;
         background-color: aqua;
         padding: 5px 20px;
         margin-left: 20px;
-       }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-    <div class="wrapper">
+      <div class="wrapper">
         <h1>SHAPE GAME</h1>
         <div class="controls">
-            <button id="start" onclick="restartGame()">Start</button>
-            <button id="stop" onclick="endGame(0)">End</button>
-            <span id="space">
-            <span><b>Score : </b>  </span> 
+          <button id="start" onclick="restartGame()">Start</button>
+          <button id="stop" onclick="endGame(0)">End</button>
+          <span id="space">
+            <span><b>Score : </b> </span>
             <span id="scoretxt"></span>
-            </span>
-            <span id="space">
-            <span><b>Lives : </b>  </span> 
+          </span>
+          <span id="space">
+            <span><b>Lives : </b> </span>
             <span id="livestxt"></span>
-        </span>
+          </span>
         </div>
-<canvas style="width:95% ;height:auto; border:2px solid">
-</canvas>
-<div class="joystick">
-    <button id="left">LEFT</button>
-    <button id="right">RIGHT</button>
-</div>
-<div class="ref">
-    <a href="index.html"> Back to Home</a>
-</div>
-    </div>
-    
-</div>
+        <canvas style="width: 95%; height: auto; border: 2px solid"> </canvas>
+        <div class="joystick">
+          <a href="index.html"> Back to Home</a>
 
-<script src="ball.js"></script>
-</body>
+          <button id="left">LEFT</button>
+          <button id="right">RIGHT</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="ball.js"></script>
+  </body>
 </html>

@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SHAPE GAME</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="wrapper">
-        <h1>SHAPE GAME</h1>
-<canvas style="width:500px ;height:500px; border:2px solid">
-<img src="/images/cash-flow.png" alt="mysprite" id="mysprite">
-</canvas>
+      <h1>SHOOTING GAME</h1>
+      <div id="scorebaord">  
+        <span>Player : </span>
+        <span id="pname">Prof</span>
+        <span>Score :</span>
+        <span id="score">18</span>
+        <span>Lives :</span>
+        <span id="lives">3</span>
+      </div>
+      <br>
+      <canvas style="width: 500px; height: 500px; border: 2px solid">
+        <img src="images/cash-flow.png" alt="mysprite" id="mysprite" />
+      </canvas>
 
-<a href="ball.html"></a>
-    </div>
+      <div>
+        <a href="ball.html">Back to Login</a>
+
+        <button id="startbtn" onclick="startGame()">Start</button>
+        <button id="pausebtn" onclick="pauseGame()">Pause</button>
+        <button id="stopbtn" onclick="stopGame()">Stop</button>
     
+      </div>
+    </div>
 
-
-<script src="player.js"></script>
-</body>
+    <script src="player.js"></script>
+  </body>
 </html>

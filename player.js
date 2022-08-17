@@ -1,126 +1,59 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext('2d');
 
-const cWidth = canvas.width = 500;
-const cHeight = canvas.height = 500;
+const cWidth = canvas.width = 400;
+const cHeight = canvas.height = 400;
+
+const anime = null;
+const bullets = [];
+
 
 class Player{
-    constructor(x, y, rad, color){
-        this.x = x;
-        this.y = y;
+    constructor(rad, color){
+        this.x = cWidth/2;
+        this.y = cHeight/2;
         this.rad = rad;
         this.color = color;
     }
-}
-
-const player = new Player(250, 250, 20, "blue");
-
-
-function drawPlayer(){
-    ctx.beginPath();
-    ctx.arc(player.x, player.y, player.rad, 0, Math.PI*2);
-    ctx.fillStyle = player.color;
-    ctx.fill();
-}
-
-//Aim player Gun
-let posCount = 0;
-function aimGun(){
     
-    if(posCount == 0){
-        gun.y += 5;
-        gun.x += 0
-        posCount++;
-    }else if(posCount == 1){
-             gun.y += 10;
-            gun.x -= 5;
-        posCount++;
-    }else if(posCount == 2){
-        gun.y += 15;
-         gun.x -= 10
-        posCount++;
-    }else if(posCount == 3){
-        gun.y += 15;
-         gun.x -= 15
-        posCount++;
-    }else if(posCount == 4){
-        gun.y -= 10;
-         gun.x -= 10
-        posCount++;
-    }else if(posCount == 5){
-        gun.y -= 15;
-         gun.x -= 0
-        posCount++;
-    }else if(posCount == 6){
-        gun.y -= 10;
-         gun.x += 5
-        posCount++;
-    }else if(posCount == 7){
-        gun.y -= 5;
-         gun.x += 10
-        posCount++;
-    }else if(posCount == 8){
-        gun.y += 5;
-         gun.x += 15
-        posCount++;
-    }else if(posCount == 9){
-        gun.y += 10;
-         gun.x += 10
-        posCount = 0;
-    }
-
-}
-
-
-//craete gun
-const gun = new Player(player.x + player.rad, player.y, 5, "red");
-
-//Draw Gun
-function drawGun(){
-    ctx.beginPath();
-    ctx.arc(gun.x, gun.y, gun.rad, 0, Math.PI*2);
-    ctx.fillStyle = gun.color;
-    ctx.fill();
-}
-
-//craete bullets
-function createBullet(){
-const bullet = new Player(gun.x, gun.y, 3, "violet");
-
-    ctx.beginPath();
-    ctx.arc(bullet.x, bullet.y, bullet.rad, 0, Math.PI*2);
-    ctx.fillStyle = bullet.color;
-    ctx.fill();
-
-    while (bullet.x < cWidth){
-        bullet.x += 5;
+    draw(){
+        ctx.beginPath();
+        ctx.arc(this.x, this.y , this.rad, 0, Math.PI*2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
     }
 }
 
-//Draw bullet
-function drawBullet(){
-    ctx.beginPath();
-    ctx.arc(bullet.x, bullet.y, bullet.rad, 0, Math.PI*2);
-    ctx.fillStyle = bullet.color;
-    ctx.fill();
-}
+const player = new Player(20, "blue");
 
-//Animate bullet
-function moveBullet(){
+// Bullet
+class Bullet{
+    constructor(rad, color){
+        this.x = cWidth/2;
+        this.y = cHeight/2;
+        this.rad = rad;
+        this.color = color;
+        this.dx = 1;
+        this.dy = 1;
+    }
+    
+    draw(){
+        ctx.beginPath();
+        ctx.arc(this.x, this.y , this.rad, 0, Math.PI*2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
 
-}
+        // Handle motion
+        this.x += this.dx;
+        this.y += this.dy;
 
-//Shoot
-function shootBullet(){
-    createBullet();
-
-}
-
-
-
-//Postion of bullet
-function bulletPos(){
-
+        // Destroy when offview
+        bullets.forEach((bullet, index) => {
+            if(bullet.x + bullet.rad < 0 || bullet.x - bullet.rad > cWidth || bullet.y + bullet.rad < 0 || bullet.x - bullet.rad > cHeight){
+                bullets.splice(index, 1);
+            }
+        })
+    }
 }
 
 
@@ -129,19 +62,29 @@ function bulletPos(){
 function startGame(){
     clearCanvas();
 
-    drawPlayer();
-    drawGun();
-    shootBullet()
+    player.draw();
+    bullets.forEach(bullet => bullet.draw());
+    // drawGun();
+    // shootBullet()
     //Change position
 
-
+    //startAnime()
     requestAnimationFrame(startGame);
+
 
 }
 
-startGame()
+function pauseGame(){
+    cancelAnimationFrame(anime);
+}
+
+function stopGame(){
+    location.reload();
+}
+
 
 //Utility functions
+
 
 //Clear canvas
 function clearCanvas(){
@@ -164,4 +107,15 @@ function playerAction(e){
     }else if(e.key === 'ArrowRight' || e.key === 'Right'){
         moveRight();
     }
+}
+
+
+// Mouse click event
+document.addEventListener('click', shootBullet);
+
+
+function shootBullet(){
+   bullets.push(new Bullet(5, "red"));
+   console.log(bullets.length);
+
 }
