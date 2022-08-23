@@ -5,20 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SHAPE GAME</title>
+
+    <style>
+      /* *{
+        box-sizing: border-box;
+      }
+      body{
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+
+      } */
+     #pname, #score{
+        margin: 2px 40px 2px 2px;
+        font-size: larger;
+      }
+    </style>
   </head>
+
   <body>
     <div class="wrapper">
       <h1>SHOOTING GAME</h1>
       <div id="scorebaord">  
         <span>Player : </span>
-        <span id="pname">Prof</span>
+        <span id="pname"><b>Prof</b></span>
         <span>Score :</span>
-        <span id="score">18</span>
+        <span id="score"><b>0</b></span>
         <span>Lives :</span>
-        <span id="lives">3</span>
+        <span id="lives"><b>3</b></span>
       </div>
       <br>
-      <canvas style="width: 500px; height: 500px; border: 2px solid">
+      <canvas style="border: 2px solid">
         <img src="images/cash-flow.png" alt="mysprite" id="mysprite" />
       </canvas>
 

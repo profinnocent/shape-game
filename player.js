@@ -1,19 +1,69 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext('2d');
 
-const cWidth = canvas.width = 400;
+const scoreEl = document.querySelector('#score');
+let score = 0;
+
+const cWidth = canvas.width = 450;
 const cHeight = canvas.height = 400;
 
 const anime = null;
 const bullets = [];
+const enemies = [];
+const particles = [];
+let speedx = 0;
+let speedy = 0;
+
+let gameStatus = 0;
+let c8enemies = null;
+let count = 0;
+
+let gameEngine;
+
+// Animate game
+function runGame(){
+
+    clearCanvas();
+
+    player.draw();
+    bullets.forEach(bullet => bullet.draw());
+    enemies.forEach(enemy => enemy.draw());
+    // drawGun();
+    // shootBullet()
+    //Change position
+
+    //startAnime()
+    gameEngine = requestAnimationFrame(runGame);
+
+}
 
 
+//Main Entry block
+function startGame(){
+    runGame();
+
+    // Create an enemy every timed interval
+    c8enemies = setInterval(spawnEnemies, 2000);
+}
+
+function pauseGame(){
+    cancelAnimationFrame(gameEngine);
+    clearInterval(c8enemies);
+}
+
+function stopGame(){
+
+    location.reload();
+}
+
+
+// Create Player instance
 class Player{
-    constructor(rad, color){
+    constructor(){
         this.x = cWidth/2;
         this.y = cHeight/2;
-        this.rad = rad;
-        this.color = color;
+        this.rad = 20;
+        this.color = "blue";
     }
     
     draw(){
@@ -24,17 +74,173 @@ class Player{
     }
 }
 
-const player = new Player(20, "blue");
+// Create player instance
+const player = new Player();
+
+
+// Create Enemy instance
+class Enemy{
+    constructor(x, y, rad, color, espeedx, espeedy){
+        this.x = x;
+        this.y = y;
+        this.rad = rad;
+        this.color = color;
+        this.edx = espeedx;
+        this.edy = espeedy;
+    }
+    
+    draw(){
+        ctx.beginPath();
+        ctx.arc(this.x, this.y , this.rad, 0, Math.PI*2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+
+
+        // Handle motion
+        this.x += this.edx;
+        this.y += this.edy;
+
+        // Check for collision
+        enemies.forEach((enemy, enemyIndex) => {
+
+            // No need to remove enemies when offview
+            
+           // Check for collision with bullets
+            bullets.forEach((bullet, bulletIndex) => {
+
+                // Remove bullets when offview
+                if(bullet.x + bullet.rad < 0 || (bullet.x - bullet.rad - 20) > cWidth || bullet.y + bullet.rad < 0 || bullet.x - bullet.rad - 20 > cHeight){
+                    bullets.splice(bulletIndex, 1);
+                }
+
+                // Bullet colliding with enemy
+                const distEB = Math.hypot(enemy.x - bullet.x, enemy.y - bullet.y)
+                
+                if(distEB - enemy.rad - bullet.rad < 1 && enemy.rad <= 10){
+                    
+                    enemies.splice(enemyIndex, 1);
+                    bullets.splice(bulletIndex, 1);
+
+                    //Explode
+                    for(let i=0; i < 6; i++){
+
+                        const px = enemy.x;
+                        const py = enemy.y;
+                        const prad = Math.floor(Math.random() * (8 - 4) + 4);
+                        const pclr = enemy.color;
+                        const pdx = Math.random() > 0.5 ? Math.random() : Math.random*-1;
+                        const pdy = Math.random() > 0.5 ? Math.random() : Math.random*-1;
+
+
+                        particles.push(new Particle(px,py,prad,pclr,pdx,pdy))
+                    }
+                
+
+                    score++;
+                    scoreEl.innerText = score; 
+                }else if(distEB - enemy.rad - bullet.rad < 1 && enemy.rad > 10){
+
+                    if(enemy.rad - 10 < 8){
+                        enemy.rad = 8;
+                    }else{
+                        enemy.rad -= 10;
+                    }
+                    bullets.splice(bulletIndex, 1);
+
+                }
+
+            })
+
+
+            // Check for collision with player
+            const distEP = Math.hypot(player.x - enemy.x, player.y - enemy.y)
+        
+            if(distEP - enemy.rad - player.rad < 1){
+
+                pauseGame();
+                console.log("Game Over");
+
+            }
+
+
+        })
+
+    }
+
+    
+}
+
+// create instances of enemies
+function spawnEnemies(e) {
+
+    let ex = 0;
+    let ey = 0;
+
+    const erad = Math.floor(Math.random() * (30 - 8) + 8);
+
+    if(Math.random() > 0.5){
+
+        ex = Math.random() > 0.5 ? -erad : cWidth + 30;
+        ey = Math.random() * cHeight;
+
+    }else{
+
+        ey = Math.random() > 0.5 ? -erad : cHeight + 30;
+        ex = Math.random() * cWidth;
+
+    }
+    // const ex = Math.random() > 0.5 ? Math.floor(Math.random() * (-30)) : Math.floor(Math.random() * (cWidth + 30));
+    // const ey = Math.random() > 0.5 ? Math.floor(Math.random() * (-30)) : Math.floor(Math.random() * (cHeight + 30));
+
+
+    const eclr = "#" + Math.floor(Math.random()*16777215).toString(16);
+    
+    const angle = Math.atan2((cHeight / 2) - ey, (cWidth / 2) - ex);
+    const espdx = Math.cos(angle);
+    const espdy = Math.sin(angle);
+
+    enemies.push(new Enemy(ex, ey, erad, eclr, espdx, espdy))
+    console.log(enemies.length);
+}
+
+// Create Explosion Particles
+class Particle{
+    constructor(x, y, rad, color, px, py){
+        this.x = x;
+        this.y = y;
+        this.rad = rad;
+        this.color = color;
+        this.pdx = px;
+        this.pdy = py;
+    }
+    
+    draw(){
+
+        ctx.beginPath();
+        ctx.arc(this.x, this.y , this.rad, 0, Math.PI*2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+
+        // Handle motion
+        this.x += this.pdx;
+        this.y += this.pdy;
+
+    }
+
+    
+}
+
+
 
 // Bullet
 class Bullet{
-    constructor(rad, color){
+    constructor(){
         this.x = cWidth/2;
         this.y = cHeight/2;
-        this.rad = rad;
-        this.color = color;
-        this.dx = 1;
-        this.dy = 1;
+        this.rad = 5;
+        this.color = "red";
+        this.dx = speedx * 3;
+        this.dy = speedy * 3;
     }
     
     draw(){
@@ -47,40 +253,28 @@ class Bullet{
         this.x += this.dx;
         this.y += this.dy;
 
-        // Destroy when offview
-        bullets.forEach((bullet, index) => {
-            if(bullet.x + bullet.rad < 0 || bullet.x - bullet.rad > cWidth || bullet.y + bullet.rad < 0 || bullet.x - bullet.rad > cHeight){
-                bullets.splice(index, 1);
-            }
-        })
     }
-}
-
-
-
-//Main Entry block
-function startGame(){
-    clearCanvas();
-
-    player.draw();
-    bullets.forEach(bullet => bullet.draw());
-    // drawGun();
-    // shootBullet()
-    //Change position
-
-    //startAnime()
-    requestAnimationFrame(startGame);
-
 
 }
 
-function pauseGame(){
-    cancelAnimationFrame(anime);
+
+// Mouse click event
+addEventListener('click', shootBullet);
+
+
+function shootBullet(e){
+    // console.log(e);
+    const angle = Math.atan2(e.pageY - 120 - (cHeight / 2), e.clientX - 10 - (cWidth / 2));
+    // console.log(angle);
+    speedx = Math.cos(angle);
+    speedy = Math.sin(angle);
+
+   bullets.push(new Bullet(speedx, speedy));
+//    console.log(bullets.length);
+
 }
 
-function stopGame(){
-    location.reload();
-}
+
 
 
 //Utility functions
@@ -110,12 +304,3 @@ function playerAction(e){
 }
 
 
-// Mouse click event
-document.addEventListener('click', shootBullet);
-
-
-function shootBullet(){
-   bullets.push(new Bullet(5, "red"));
-   console.log(bullets.length);
-
-}
