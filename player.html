@@ -24,6 +24,51 @@
         margin: 2px 40px 2px 2px;
         font-size: larger;
       }
+      #modal{
+        position: fixed;
+        background-color: rgba(0,0,0,0.5);
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+      }
+
+      #mcontent{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: aqua;
+        padding: 20px;
+        margin: 150px 50px;
+        border-radius: 10px;
+
+      }
+      #mcontent h1{
+        margin: 0;
+        font-size: 2.5rem;
+      }
+      #mcontent p{
+        margin-top: 0;
+      }
+      #mcontent button{
+        width: 100px;
+        margin: 0 10px;
+        color: aliceblue;
+      }
+      #mcontent button a{
+        text-decoration: none;
+        color: aliceblue;
+      }
+      button{
+            width: 80px;
+            margin: 3px 5px;
+            padding: 3px;
+            border-radius: 5px;
+            color: aliceblue;
+        }
+
     </style>
   </head>
 
@@ -44,13 +89,37 @@
       </canvas>
 
       <div>
-        <a href="ball.html">Back to Login</a>
+        <a href="index.html"><b>&#60;&#60; Home</b></a>
 
-        <button id="startbtn" onclick="startGame()">Start</button>
-        <button id="pausebtn" onclick="pauseGame()">Pause</button>
-        <button id="stopbtn" onclick="stopGame()">Stop</button>
-    
+        <button style="background-color: green;" id="startbtn" onclick="startGame()">Start</button>
+        <button style="background-color: darkorange;" id="pausebtn" onclick="pauseGame()">Pause</button>
+        <button style="background-color: red;" id="stopbtn" onclick="stopGame()">Stop</button>
+        
       </div>
+
+      <div id="modal">
+        <div id="mcontent">
+          <h1>100</h1>
+          <p>points</p>
+          <div class="btns">
+            <button style="background-color: green;" onclick="stopGame()">Start Game</button>
+            <button style="background-color: rgb(236, 59, 59);" ><a href="index.html">Exit</a></button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Sound Effect -->
+    <div class="sound">
+      <audio id="sbullet">
+        <source src="/shape-game/images/shortshoot.wav" type="audio/ogg">
+        <source src="/shape-game/images/shortshoot.wav" type="audio/mpeg">
+      </audio>
+      <audio id="shatter">
+        <source src="/shape-game/images/boom2.wav" type="audio/ogg">
+        <source src="/shape-game/images/boom2.wav" type="audio/mpeg">
+      </audio>
     </div>
 
     <script src="player.js"></script>

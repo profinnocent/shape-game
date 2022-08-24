@@ -3,6 +3,14 @@ const ctx = canvas.getContext('2d');
 
 const scoreEl = document.querySelector('#score');
 let score = 0;
+// let endScore = 0
+
+const modal = document.querySelector("#modal")
+const modalScore = document.querySelector("#mcontent h1")
+
+// sound
+const sBullet = document.querySelector('#sbullet')
+
 
 const cWidth = canvas.width = 450;
 const cHeight = canvas.height = 400;
@@ -14,11 +22,14 @@ const particles = [];
 let speedx = 0;
 let speedy = 0;
 
-let gameStatus = 0;
+let gameState = 0;
 let c8enemies = null;
 let count = 0;
 
 let gameEngine;
+
+modal.style.display = "none";
+
 
 // Animate game
 function runGame(){
@@ -28,6 +39,17 @@ function runGame(){
     player.draw();
     bullets.forEach(bullet => bullet.draw());
     enemies.forEach(enemy => enemy.draw());
+    particles.forEach((particle, pindex) => {
+        particle.draw();
+
+        //Remove first 5 particle every 2sec
+        setTimeout(() => {
+            if(particles.length > 24){
+                particles.splice(pindex, 24);
+            }
+        },500)
+
+    })
     // drawGun();
     // shootBullet()
     //Change position
@@ -40,6 +62,13 @@ function runGame(){
 
 //Main Entry block
 function startGame(){
+    gameState = 1;
+    speedx = 0;
+    speedy = 0;
+    score = 0;
+    scoreEl.innerText = score;
+    modal.style.display = "none";
+
     runGame();
 
     // Create an enemy every timed interval
@@ -55,6 +84,7 @@ function stopGame(){
 
     location.reload();
 }
+
 
 
 // Create Player instance
@@ -120,45 +150,57 @@ class Enemy{
                     
                     enemies.splice(enemyIndex, 1);
                     bullets.splice(bulletIndex, 1);
+                    sBullet.play();
+
 
                     //Explode
-                    for(let i=0; i < 6; i++){
+                    for(let i=0; i < (enemy.rad * 3); i++){
 
                         const px = enemy.x;
                         const py = enemy.y;
-                        const prad = Math.floor(Math.random() * (8 - 4) + 4);
+                        const prad = Math.floor(Math.random() * (8 -3) + 3);
                         const pclr = enemy.color;
-                        const pdx = Math.random() > 0.5 ? Math.random() : Math.random*-1;
-                        const pdy = Math.random() > 0.5 ? Math.random() : Math.random*-1;
+                        const pdx = ((Math.random() - 0.5) * 5) * 0.97 ;
+                        const pdy = ((Math.random() - 0.5) * 5) * 0.97;
 
 
                         particles.push(new Particle(px,py,prad,pclr,pdx,pdy))
+                        console.log(particles.length);
                     }
                 
 
-                    score++;
-                    scoreEl.innerText = score; 
+                    score += 5;
                 }else if(distEB - enemy.rad - bullet.rad < 1 && enemy.rad > 10){
 
                     if(enemy.rad - 10 < 8){
                         enemy.rad = 8;
+                        score += 3
                     }else{
                         enemy.rad -= 10;
+                        score += 1
                     }
                     bullets.splice(bulletIndex, 1);
 
                 }
 
+                scoreEl.innerText = score; 
+
+
             })
 
 
-            // Check for collision with player
+            // END GAME : Check for collision with player
             const distEP = Math.hypot(player.x - enemy.x, player.y - enemy.y)
         
-            if(distEP - enemy.rad - player.rad < 1){
+            if(distEP - enemy.rad - player.rad < 1 && gameState == 1){
 
                 pauseGame();
-                console.log("Game Over");
+                modal.style.display = "block";
+
+                // if(gameStatus == 1){
+                    modalScore.innerText = score;
+                    gameState = 0;
+                // }
 
             }
 
@@ -200,7 +242,7 @@ function spawnEnemies(e) {
     const espdy = Math.sin(angle);
 
     enemies.push(new Enemy(ex, ey, erad, eclr, espdx, espdy))
-    console.log(enemies.length);
+    //console.log(enemies.length);
 }
 
 // Create Explosion Particles
@@ -222,8 +264,10 @@ class Particle{
         ctx.fill();
 
         // Handle motion
-        this.x += this.pdx;
-        this.y += this.pdy;
+        this.x += this.pdx * 4;
+        this.y += this.pdy * 4;
+
+        
 
     }
 
@@ -271,6 +315,8 @@ function shootBullet(e){
 
    bullets.push(new Bullet(speedx, speedy));
 //    console.log(bullets.length);
+
+
 
 }
 

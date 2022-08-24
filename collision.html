@@ -5,19 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHAPE GAME</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        button{
+            width: 80px;
+            margin: 3px 5px;
+            padding: 3px;
+            border-radius: 5px;
+            color: aliceblue;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper">
-        <h1>COLLISION GAME</h1>
+        <h1>COLLISION SIMULATOR</h1>
 <canvas style="border:2px solid">
 <img src="images/cash-flow.png" alt="mysprite" id="mysprite">
 </canvas>
 
 <div>
-    <a href="index.html">Home</a>
-    <button id="startbtn" onclick="startGen()">Start</button>
-    <button id="pausebtn" onclick="pauseGen()">Pause</button>
-    <button id="stopbtn" onclick="stopGen()">Stop</button>
+    <a href="index.html"><b>&#60;&#60; Home</b></a>
+    <button style="background-color: green;" id="startbtn" onclick="startGen()">Start</button>
+    <button style="background-color: darkorange;" id="pausebtn" onclick="pauseGen()">Pause</button>
+    <button style="background-color: red;" id="stopbtn" onclick="stopGen()">Stop</button>
 </div>
     </div>
     
